@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JL Imports</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding-top: 50px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+    input[type="text"] {
+      padding: 12px;
+      width: 90%;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    #precio {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+    #cotizacionContainer {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>JLImports.com.ar</h1>
+  <div class="container">
+    <div id="cotizacionContainer">
+      <input type="number" id="cotizacion" value="2430" />
+    </div>
+
+    <input type="text" id="buscador" placeholder="Introduzca el nombre del perfume" />
+    <div id="precio">–</div>
+  </div>
+
+  <script>
+    // Lista de perfumes y su precio en dólar
+    const productos = [
+      { nombre: "Dior Sauvage 100ml", precio_dolar: 29 },
+      { nombre: "Scandal Pour Homme", precio_dolar: 25 },
+      { nombre: "Armani Acqua di Gio", precio_dolar: 30 },
+      { nombre: "Invictus Paco Rabanne", precio_dolar: 28 },
+      { nombre: "Bleu de Chanel 100ml", precio_dolar: 33 }
+    ];
+
+    const buscador = document.getElementById("buscador");
+    const precioDiv = document.getElementById("precio");
+    const cotizacionInput = document.getElementById("cotizacion");
+
+    buscador.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        const nombreIngresado = buscador.value.toLowerCase().trim();
+        const cotizacion = parseFloat(cotizacionInput.value);
+
+        const resultado = productos.find(p =>
+          p.nombre.toLowerCase().includes(nombreIngresado)
+        );
+
+        if (resultado) {
+          const precioPesos = (resultado.precio_dolar * cotizacion).toLocaleString("es-AR", {
+            style: "currency",
+            currency: "ARS",
+            minimumFractionDigits: 0
+          });
+          precioDiv.textContent = `Precio: ${precioPesos}`;
+        } else {
+          precioDiv.textContent = "Perfume no encontrado";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
